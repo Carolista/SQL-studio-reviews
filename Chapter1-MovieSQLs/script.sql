@@ -1,135 +1,44 @@
 -- SETUP
 
--- 1
-CREATE TABLE movies (
-	movie_id INT PRIMARY KEY AUTO_INCREMENT,
-    title VARCHAR(120),
-    year_released INT,
-    director VARCHAR(80)
-);
+-- 1 Create movies table
 
--- 2
-CREATE TABLE directors (
-	director_id INT PRIMARY KEY AUTO_INCREMENT,
-    first_name VARCHAR(40),
-    last_name VARCHAR(40),
-    country VARCHAR(80)
-);
+-- 2 Create directors table
 
--- 3
-DROP TABLE movies;
+-- 3 Drop movies table and recreate with foreign key
 
-CREATE TABLE movies (
-	movie_id INT PRIMARY KEY AUTO_INCREMENT,
-    title VARCHAR(120),
-    year_released INT,
-    director_id INT,
-    FOREIGN KEY (director_id) REFERENCES directors(director_id)
-);
-
--- 4
--- Execute movie-buff-data.sql to insert data into tables
+-- 4 Execute movie-buff-data.sql to insert data into tables
 
 
 -- ASSIGNMENT
 
--- 1
-SELECT title
-FROM movies;
+-- 1 Get all titles
 
--- 2
-SELECT title, year_released
-FROM movies
-ORDER BY year_released DESC;
+-- 2 Get title and year released, ordered descending
 
--- 3
-SELECT * FROM directors
-ORDER BY country ASC;
+-- 3 Get directors ordered by country
 
--- 4
-SELECT * FROM directors
-ORDER BY country ASC, last_name;
+-- 4 Get directors ordered by country and then last name
 
--- 5
-INSERT INTO directors (first_name, last_name, country)
-VALUES ("Rob", "Reiner", "USA");
+-- 5 Add Rob Reiner (USA) to directors
 
--- 6
-SELECT last_name, director_id
-FROM directors
-WHERE last_name="Reiner";
+-- 6 Get last name and id of Rob Reiner specifically
 
--- 7
-INSERT INTO movies (title, year_released, director_id)
-VALUES ("The Princess Bride", 1987, 11);
+-- 7 Add The Princess Bride (1987, Rob Reiner) to movies
 
--- 8 (and bonus mission 1)
-SELECT m.title, m.year_released, d.last_name
-FROM movies AS m
-INNER JOIN directors AS d ON m.director_id = d.director_id;
+-- 8 (and bonus mission 1) Do an inner join on movies and directors
 
--- 9
-SELECT movies.title, directors.first_name, directors.last_name
-FROM movies
-INNER JOIN directors ON movies.director_id = directors.director_id
-ORDER BY directors.last_name ASC;
+-- 9 Do an inner join and order by directors' last names
 
--- 10 (preliminary)
-SELECT director_id FROM movies WHERE title="The Incredibles";
+-- 10 (preliminary) Get directory id for The Incredibles
 
--- 10 (final combo)
-SELECT first_name, last_name
-FROM directors
-WHERE director_id = (SELECT director_id FROM movies WHERE title="The Incredibles");
+-- 10 (final combo) Use a subquery to get first and last name of The Incredibles director
 
--- 11
-SELECT first_name, last_name
-FROM directors
-INNER JOIN movies ON movies.director_id = directors.director_id
-WHERE title = "Roma";
+-- 11 Use subquery to get first and last name of Roma director
 
--- 12
-DELETE FROM movies
-WHERE movie_id = 10;
+-- 12 Remove a movie
 
--- 13
-DELETE FROM directors
-WHERE director_id = 1; /* can't be done unless related movies are removed first */
-
+-- 13 Try to remove a director
 
 -- Bonus mission 2
-SELECT title
-FROM movies
-INNER JOIN directors ON movies.director_id = directors.director_id
-WHERE (directors.first_name = "Peter") AND (directors.last_name = "Jackson");
-
 
 -- Bonus mission 3
-ALTER TABLE movies
-ADD earnings INT;
-
-UPDATE movies
-SET earnings=394436586
-WHERE movie_id = 1;
-
-UPDATE movies
-SET earnings=631643697
-WHERE movie_id = 2;
-
-UPDATE movies
-SET earnings=363258859
-WHERE movie_id = 4;
-
-UPDATE movies
-SET earnings=213977285
-WHERE movie_id = 5;
-
-UPDATE movies
-SET earnings=1147997407
-WHERE movie_id = 11;
-
-SELECT * FROM movies
-ORDER BY earnings DESC;
-
-SELECT * FROM movies
-WHERE earnings > 500000000;
