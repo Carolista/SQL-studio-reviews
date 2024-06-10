@@ -1,10 +1,31 @@
 -- SETUP
 
 -- 1 Create movies table
+CREATE TABLE movies (
+	movie_id INT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(120),
+    year_released INT,
+    director VARCHAR(80)
+);
 
 -- 2 Create directors table
+CREATE TABLE directors (
+	director_id INT PRIMARY KEY AUTO_INCREMENT,
+    first_name VARCHAR(40),
+    last_name VARCHAR(40),
+    country VARCHAR(80)
+);
 
 -- 3 Drop movies table and recreate with foreign key
+DROP TABLE movies;
+
+CREATE TABLE movies (
+	movie_id INT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(120),
+    year_released INT,
+    director_id INT,
+    FOREIGN KEY (director_id) REFERENCES directors(director_id)
+);
 
 -- 4 Execute movie-buff-data.sql to insert data into tables
 
